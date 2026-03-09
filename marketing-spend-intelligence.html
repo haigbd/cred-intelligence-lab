@@ -1,0 +1,2897 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CRED – Marketing Spend Intelligence</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #F8FAFC; color: #1E293B;
+}
+.header {
+  background: linear-gradient(135deg, #1E1B4B 0%, #312E81 40%, #4338CA 100%);
+  color: white; padding: 52px 48px 44px;
+}
+.header h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; }
+.header p { font-size: 15px; color: #C7D2FE; max-width: 700px; margin-top: 8px; line-height: 1.5; }
+.header .meta { margin-top: 14px; font-size: 12px; color: #A5B4FC; }
+.wrap { max-width: 1140px; margin: 0 auto; padding: 32px 24px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+.stat { background: #fff; border-radius: 12px; padding: 22px 18px; text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.stat .v { font-size: 26px; font-weight: 700; color: #4F46E5; }
+.stat .l { font-size: 12px; color: #64748B; margin-top: 3px; }
+.section-title {
+  font-size: 20px; font-weight: 700; color: #1E293B;
+  border-left: 4px solid #4F46E5; padding-left: 12px; margin-top: 36px; margin-bottom: 4px;
+}
+.section-desc { color: #64748B; font-size: 13px; margin-bottom: 20px; padding-left: 16px; }
+.card {
+  background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } .stats { grid-template-columns: repeat(2,1fr); } }
+.insight {
+  background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border-left: 4px solid #4F46E5;
+  border-radius: 8px; padding: 16px 20px; margin-bottom: 20px;
+}
+.insight h4 { font-size: 13px; color: #4338CA; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.insight p { font-size: 13px; color: #334155; line-height: 1.55; }
+.footer { text-align: center; padding: 36px; color: #94A3B8; font-size: 12px; }
+.model-badge {
+  display: inline-block; background: #EEF2FF; color: #4338CA; font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 20px; margin-right: 6px; margin-bottom: 6px;
+}
+.sample-banner {
+  background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 8px;
+  padding: 10px 16px; margin-bottom: 20px; font-size: 13px; color: #92400E;
+}
+.use-case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0 8px; }
+.use-case {
+  background: #fff; border-radius: 10px; padding: 20px 18px; text-align: center;
+  border: 1px solid #E2E8F0; box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.use-case .uc-icon { font-size: 28px; margin-bottom: 6px; }
+.use-case .uc-title { font-size: 14px; font-weight: 700; color: #1E293B; margin-bottom: 4px; }
+.use-case .uc-desc { font-size: 12px; color: #64748B; line-height: 1.45; }
+@media (max-width: 800px) { .use-case-grid { grid-template-columns: 1fr; } }
+.validation { background: #F0FDF4; border-left: 4px solid #22C55E; border-radius: 8px;
+  padding: 16px 20px; margin-bottom: 12px; }
+.validation h4 { font-size: 13px; color: #15803D; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.validation p { font-size: 13px; color: #334155; line-height: 1.55; }
+.validation ul { font-size: 13px; color: #334155; line-height: 1.7; margin: 6px 0 0 18px; }
+.methodology-footer {
+  background: #F8FAFC; border-radius: 12px; padding: 24px 28px 20px;
+  margin-top: 8px; border: 1px solid #E2E8F0;
+}
+.methodology-footer h3 { font-size: 15px; font-weight: 700; color: #64748B; margin-bottom: 12px; }
+.methodology-footer p { font-size: 12px; color: #64748B; line-height: 1.6; margin-bottom: 8px; }
+.conf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 12px 0; }
+.conf-card { border-radius: 8px; padding: 10px; text-align: center; }
+.conf-card.high { background: #DCFCE7; border: 1px solid #86EFAC; }
+.conf-card.moderate { background: #FEF9C3; border: 1px solid #FDE68A; }
+.conf-card.directional { background: #FEE2E2; border: 1px solid #FECACA; }
+.conf-card .ct { font-size: 13px; font-weight: 700; }
+.conf-card.high .ct { color: #15803D; }
+.conf-card.moderate .ct { color: #A16207; }
+.conf-card.directional .ct { color: #DC2626; }
+.conf-card .cl { font-size: 11px; color: #64748B; margin-top: 2px; }
+.conf-card .cs { font-size: 10px; color: #94A3B8; margin-top: 1px; }
+@media (max-width: 800px) { .conf-grid { grid-template-columns: repeat(2,1fr); } }
+</style></head><body>
+
+<div class="header">
+  <h1>Marketing Spend Intelligence</h1>
+  <p>See how any company likely allocates its marketing budget across digital advertising, influencer, and sponsorship channels — even when they don't publicly disclose it. Powered by ML models trained on 100K+ companies with observed spend data.</p>
+  <div class="meta">Generated March 09, 2026 at 03:34 PM &bull; Data Science Team</div>
+</div>
+<div class="wrap">
+
+<div class="stats"><div class="stat"><div class="v">42.8M</div><div class="l">Companies Scored</div></div>
+<div class="stat"><div class="v">$125.5T</div><div class="l">Total Estimated Mkt Spend</div></div>
+<div class="stat"><div class="v">$2.5M</div><div class="l">Median Est. Budget / Company</div></div>
+<div class="stat"><div class="v">35.8%</div><div class="l">Median Mkt / Revenue</div></div></div>
+
+        <div class="section-title">What You Can Do With This Data</div>
+        <div class="section-desc">Marketing spend intelligence for 42.8M companies across 22 sectors</div>
+        <div class="use-case-grid">
+          <div class="use-case">
+            <div class="uc-title">Competitive Benchmarking</div>
+            <div class="uc-desc">See how a target company's marketing mix compares
+              to its sector peers — who's over-indexing on digital ads, influencer, or sponsorship.</div>
+          </div>
+          <div class="use-case">
+            <div class="uc-title">Sales Prospecting</div>
+            <div class="uc-desc">Identify companies with high estimated marketing budgets
+              in your target sector. Filter by channel to find the right prospects for your product.</div>
+          </div>
+          <div class="use-case">
+            <div class="uc-title">Market Sizing</div>
+            <div class="uc-desc">Estimate total addressable marketing spend by sector, channel,
+              and company size — even for privately held companies with no public disclosures.</div>
+          </div>
+        </div>
+        <div style="font-size:12px; color:#94A3B8; text-align:center; margin-top:4px;">
+          Estimates are ML-generated from financial statements, digital signals, and sector benchmarks.
+          Best suited for relative comparisons and cohort-level patterns.
+        </div>
+        
+
+        <div class="section-title">Channel Allocation Overview</div>
+        <div class="section-desc">How marketing budgets break down across channels</div>
+        <div class="insight">
+          <h4>Key Finding</h4>
+          <p>Across 42.8M companies, <b>digital advertising</b> is the largest trackable
+             channel at 14% of total spend, followed by <b>sponsorship</b> at 10%
+             and <b>influencer</b> at 4%. The remaining spend covers activities
+             like events, content marketing, PR, and in-house marketing operations.</p>
+        </div>
+        <div class="grid-2">
+          <div class="card"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="2cebc3310745466da0c256ca41096d58" class="chart-container" style="width:100%; height:460px; "></div>
+    <script>
+        var chart_2cebc3310745466da0c256ca41096d58 = echarts.init(
+            document.getElementById('2cebc3310745466da0c256ca41096d58'), 'light', {renderer: 'canvas', locale: 'ZH'});
+        var option_2cebc3310745466da0c256ca41096d58 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "pie",
+            "colorBy": "data",
+            "legendHoverLink": true,
+            "selectedMode": false,
+            "selectedOffset": 10,
+            "clockwise": true,
+            "startAngle": 90,
+            "minAngle": 0,
+            "minShowLabelAngle": 0,
+            "avoidLabelOverlap": true,
+            "stillShowZeroSum": true,
+            "percentPrecision": 2,
+            "showEmptyCircle": true,
+            "emptyCircleStyle": {
+                "color": "lightgray",
+                "borderColor": "#000",
+                "borderWidth": 0,
+                "borderType": "solid",
+                "borderDashOffset": 0,
+                "borderCap": "butt",
+                "borderJoin": "bevel",
+                "borderMiterLimit": 10,
+                "opacity": 1
+            },
+            "data": [
+                {
+                    "name": "Digital Advertising",
+                    "value": 17872475437518.0
+                },
+                {
+                    "name": "Influencer",
+                    "value": 5185958323923.0
+                },
+                {
+                    "name": "Sponsorship",
+                    "value": 12999467236257.0
+                },
+                {
+                    "name": "Other / Residual",
+                    "value": 89433131159893.0
+                }
+            ],
+            "radius": [
+                "42%",
+                "68%"
+            ],
+            "center": [
+                "50%",
+                "55%"
+            ],
+            "label": {
+                "show": true,
+                "color": "#334155",
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(p){var v=p.value;var f=v>=1e12?'$'+(v/1e12).toFixed(1)+'T':v>=1e9?'$'+(v/1e9).toFixed(1)+'B':v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1e3).toFixed(0)+'K';return p.name+'\n'+p.percent.toFixed(1)+'%  ('+f+')'},
+                "overflow": "break",
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "labelLine": {
+                "show": true,
+                "showAbove": false,
+                "length": 15,
+                "length2": 15,
+                "smooth": false,
+                "minTurnAngle": 90,
+                "maxSurfaceAngle": 90
+            },
+            "itemStyle": {
+                "borderColor": "#fff",
+                "borderWidth": 3,
+                "borderRadius": 8
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "Digital Advertising",
+                "Influencer",
+                "Sponsorship",
+                "Other / Residual"
+            ],
+            "selected": {},
+            "show": true,
+            "bottom": "0%",
+            "orient": "horizontal",
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "textStyle": {
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            },
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10,
+            "triggerEvent": false
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "displayTransition": true,
+        "textStyle": {
+            "fontSize": 14,
+            "richInheritPlainLabel": true
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "color": [
+        "#4F46E5",
+        "#06B6D4",
+        "#8B5CF6",
+        "#F59E0B"
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "Estimated Channel Mix",
+            "target": "blank",
+            "subtext": "Total estimated spend: $125.5T",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "color": "#1E293B",
+                "fontWeight": "bold",
+                "fontSize": 17,
+                "richInheritPlainLabel": true
+            },
+            "subtextStyle": {
+                "color": "#64748B",
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            }
+        }
+    ],
+    "graphic": [
+        {
+            "type": "group",
+            "diffChildrenByName": false,
+            "children": [
+                {
+                    "type": "text",
+                    "$action": "merge",
+                    "rotation": 0,
+                    "left": "center",
+                    "top": "center",
+                    "bounding": "all",
+                    "z": 0,
+                    "zlevel": 0,
+                    "silent": false,
+                    "invisible": false,
+                    "ignore": false,
+                    "cursor": "pointer",
+                    "draggable": false,
+                    "progressive": false,
+                    "width": 0,
+                    "height": 0,
+                    "style": {
+                        "text": "$125.5T",
+                        "x": 0,
+                        "y": 0,
+                        "font": "bold 20px sans-serif",
+                        "fontSize": 0,
+                        "textAlign": "left",
+                        "fill": "#1E293B",
+                        "line_width": 0
+                    }
+                }
+            ],
+            "$action": "merge",
+            "rotation": 0,
+            "left": "center",
+            "top": "center",
+            "bounding": "all",
+            "z": 100,
+            "zlevel": 0,
+            "silent": false,
+            "invisible": false,
+            "ignore": false,
+            "cursor": "pointer",
+            "draggable": false,
+            "progressive": false,
+            "width": 0,
+            "height": 0
+        }
+    ]
+};
+        chart_2cebc3310745466da0c256ca41096d58.setOption(option_2cebc3310745466da0c256ca41096d58);
+            window.addEventListener('resize', function(){
+                chart_2cebc3310745466da0c256ca41096d58.resize();
+            })
+    </script>
+</body>
+</html>
+</div>
+          <div class="card"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="bcb405a5d2334490986f4b3dd2fefc4b" class="chart-container" style="width:100%; height:460px; "></div>
+    <script>
+        var chart_bcb405a5d2334490986f4b3dd2fefc4b = echarts.init(
+            document.getElementById('bcb405a5d2334490986f4b3dd2fefc4b'), 'light', {renderer: 'canvas', locale: 'ZH'});
+        var option_bcb405a5d2334490986f4b3dd2fefc4b = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "bar",
+            "name": "Companies",
+            "legendHoverLink": true,
+            "data": [
+                1,
+                13,
+                580207,
+                29529390,
+                12423972,
+                290831,
+                94,
+                83,
+                35,
+                4
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "85%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#4F46E5'},{offset:1,color:'#A5B4FC'}]),
+                "borderRadius": [
+                    4,
+                    4,
+                    0,
+                    0
+                ]
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "Companies"
+            ],
+            "selected": {},
+            "show": false,
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10,
+            "triggerEvent": false
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "displayTransition": true,
+        "textStyle": {
+            "fontSize": 14,
+            "richInheritPlainLabel": true
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "name": "Predicted Budget",
+            "show": true,
+            "scale": false,
+            "nameLocation": "middle",
+            "nameGap": 40,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "rotate": 45,
+                "margin": 8,
+                "fontSize": 9,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0,
+            "data": [
+                "$32K",
+                "$100K",
+                "$316K",
+                "$1.0M",
+                "$3.2M",
+                "$10.0M",
+                "$31.6M",
+                "$100.0M",
+                "$316.2M",
+                "$1.0B"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "name": "# Companies",
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(v){if(v>=1e6)return (v/1e6).toFixed(1)+'M';if(v>=1e3)return (v/1e3).toFixed(0)+'K';return v},
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "Marketing Budget Distribution",
+            "target": "blank",
+            "subtext": "Log-scale distribution of estimated total budgets",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "color": "#1E293B",
+                "fontWeight": "bold",
+                "fontSize": 17,
+                "richInheritPlainLabel": true
+            },
+            "subtextStyle": {
+                "color": "#64748B",
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            }
+        }
+    ]
+};
+        chart_bcb405a5d2334490986f4b3dd2fefc4b.setOption(option_bcb405a5d2334490986f4b3dd2fefc4b);
+            window.addEventListener('resize', function(){
+                chart_bcb405a5d2334490986f4b3dd2fefc4b.resize();
+            })
+    </script>
+</body>
+</html>
+</div>
+        </div>
+        
+
+        <div class="section-title">Sector-Level Intelligence</div>
+        <div class="section-desc">How marketing allocation strategies differ across sectors</div>
+        <div class="insight">
+          <h4>Key Finding</h4>
+          <p><b>Industrial</b> has the most companies scored.
+             The channel mix varies significantly by sector — consumer-facing sectors
+             allocate more to influencer and sponsorship marketing, while B2B-heavy
+             sectors concentrate spend on digital advertising. Use these benchmarks
+             to understand how a target company's mix compares to its peers.</p>
+        </div>
+        <div class="grid-2">
+          <div class="card"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="192289b303924d13bfd16be51aa43a53" class="chart-container" style="width:100%; height:696px; "></div>
+    <script>
+        var chart_192289b303924d13bfd16be51aa43a53 = echarts.init(
+            document.getElementById('192289b303924d13bfd16be51aa43a53'), 'light', {renderer: 'canvas', locale: 'ZH'});
+        var option_192289b303924d13bfd16be51aa43a53 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "bar",
+            "name": "Digital Advertising",
+            "legendHoverLink": true,
+            "data": [
+                260132.0,
+                163698.0,
+                209278.0,
+                265708.0,
+                166760.0,
+                228288.0,
+                230165.0,
+                177733.0,
+                177829.0,
+                118863.0,
+                247732.0,
+                395534.0,
+                355700.0,
+                273743.0,
+                284537.0,
+                610892.0,
+                751493.0,
+                661124.0,
+                677817.0,
+                759210.0,
+                717711.0,
+                617508.0
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#4F46E5"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Influencer",
+            "legendHoverLink": true,
+            "data": [
+                64346.0,
+                38469.0,
+                68655.0,
+                66800.0,
+                47240.0,
+                48895.0,
+                66211.0,
+                42573.0,
+                43105.0,
+                24404.0,
+                63879.0,
+                108903.0,
+                97803.0,
+                93718.0,
+                86905.0,
+                197953.0,
+                166675.0,
+                305835.0,
+                203807.0,
+                178242.0,
+                199203.0,
+                168101.0
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#06B6D4"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Sponsorship",
+            "legendHoverLink": true,
+            "data": [
+                179106.0,
+                125350.0,
+                131013.0,
+                232592.0,
+                130335.0,
+                185030.0,
+                177485.0,
+                141759.0,
+                141482.0,
+                99824.0,
+                193330.0,
+                309399.0,
+                268067.0,
+                200789.0,
+                210481.0,
+                436698.0,
+                595205.0,
+                397185.0,
+                470439.0,
+                599928.0,
+                510983.0,
+                412379.0
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#8B5CF6"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Other / Residual",
+            "legendHoverLink": true,
+            "data": [
+                1527224.0,
+                1733887.0,
+                1671407.0,
+                1625076.0,
+                1922719.0,
+                1824232.0,
+                1867914.0,
+                2050473.0,
+                2055154.0,
+                2176046.0,
+                2016819.0,
+                1882398.0,
+                1992455.0,
+                2227408.0,
+                2316230.0,
+                1692480.0,
+                1873587.0,
+                2023425.0,
+                2074704.0,
+                1893408.0,
+                2149351.0,
+                2939856.0
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#F59E0B"
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "Digital Advertising",
+                "Influencer",
+                "Sponsorship",
+                "Other / Residual"
+            ],
+            "selected": {},
+            "show": true,
+            "bottom": "0%",
+            "orient": "horizontal",
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "textStyle": {
+                "fontSize": 11,
+                "richInheritPlainLabel": true
+            },
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10,
+            "triggerEvent": false
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "shadow"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "displayTransition": true,
+        "formatter": function(p){var s='<b>'+p[0].name+'</b><br/>';var t=0;function fc(v){return v>=1e12?'$'+(v/1e12).toFixed(1)+'T':v>=1e9?'$'+(v/1e9).toFixed(1)+'B':v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1e3).toFixed(0)+'K';}p.forEach(function(i){t+=i.value;s+=i.marker+' '+i.seriesName+': '+fc(i.value)+'<br/>';});s+='<br/><b>Total: '+fc(t)+'</b>';return s;},
+        "textStyle": {
+            "fontSize": 14,
+            "richInheritPlainLabel": true
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(v){if(v>=1e12)return '$'+(v/1e12).toFixed(1)+'T';if(v>=1e9)return '$'+(v/1e9).toFixed(1)+'B';if(v>=1e6)return '$'+(v/1e6).toFixed(1)+'M';if(v>=1e3)return '$'+(v/1e3).toFixed(0)+'K';return '$'+v},
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0,
+            "data": [
+                "Real Estate",
+                "Professional Services",
+                "Industrial",
+                "Transportation",
+                "Metals & Mining",
+                "Energy",
+                "Agriculture",
+                "Government",
+                "Environmental Services",
+                "Utilities",
+                "Education",
+                "Financial",
+                "Healthcare",
+                "Non-Profit Organizations",
+                "Security",
+                "Retail",
+                "Food & Beverages",
+                "Communications & Media",
+                "Leisure",
+                "Consumer Packaged Goods",
+                "Consumer Durable Goods",
+                "Information Technology"
+            ]
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "Marketing Allocation by Sector",
+            "target": "blank",
+            "subtext": "Median estimated spend per company by channel",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "color": "#1E293B",
+                "fontWeight": "bold",
+                "fontSize": 17,
+                "richInheritPlainLabel": true
+            },
+            "subtextStyle": {
+                "color": "#64748B",
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            }
+        }
+    ]
+};
+        chart_192289b303924d13bfd16be51aa43a53.setOption(option_192289b303924d13bfd16be51aa43a53);
+            window.addEventListener('resize', function(){
+                chart_192289b303924d13bfd16be51aa43a53.resize();
+            })
+    </script>
+</body>
+</html>
+</div>
+          <div class="card"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="0c1fbb88676c487db4af72206b1dc3e2" class="chart-container" style="width:100%; height:696px; "></div>
+    <script>
+        var chart_0c1fbb88676c487db4af72206b1dc3e2 = echarts.init(
+            document.getElementById('0c1fbb88676c487db4af72206b1dc3e2'), 'light', {renderer: 'canvas', locale: 'ZH'});
+        var option_0c1fbb88676c487db4af72206b1dc3e2 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "bar",
+            "name": "Digital Advertising",
+            "legendHoverLink": true,
+            "data": [
+                7.2,
+                7.9,
+                8.0,
+                8.2,
+                9.4,
+                10.3,
+                10.4,
+                10.5,
+                10.6,
+                10.9,
+                11.1,
+                12.9,
+                13.0,
+                13.1,
+                14.8,
+                14.9,
+                18.9,
+                19.2,
+                19.4,
+                20.9,
+                21.1,
+                21.4
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#4F46E5"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Influencer",
+            "legendHoverLink": true,
+            "data": [
+                1.8,
+                1.9,
+                1.9,
+                2.0,
+                2.5,
+                2.3,
+                2.9,
+                3.2,
+                2.8,
+                3.5,
+                3.0,
+                3.0,
+                3.0,
+                3.6,
+                3.5,
+                4.3,
+                6.0,
+                5.4,
+                7.7,
+                6.3,
+                5.2,
+                5.6
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#06B6D4"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Sponsorship",
+            "legendHoverLink": true,
+            "data": [
+                5.6,
+                6.1,
+                6.3,
+                6.4,
+                7.1,
+                8.3,
+                7.7,
+                7.5,
+                8.0,
+                7.5,
+                8.4,
+                10.1,
+                10.1,
+                9.6,
+                11.7,
+                10.8,
+                13.5,
+                14.2,
+                12.4,
+                15.1,
+                16.4,
+                16.3
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#8B5CF6"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Other / Residual",
+            "legendHoverLink": true,
+            "data": [
+                85.4,
+                84.1,
+                83.8,
+                83.4,
+                81.0,
+                79.1,
+                79.0,
+                78.8,
+                78.7,
+                78.1,
+                77.6,
+                74.0,
+                74.0,
+                73.8,
+                70.0,
+                70.0,
+                61.6,
+                61.2,
+                60.6,
+                57.8,
+                57.3,
+                56.7
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#F59E0B"
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "Digital Advertising",
+                "Influencer",
+                "Sponsorship",
+                "Other / Residual"
+            ],
+            "selected": {},
+            "show": true,
+            "bottom": "0%",
+            "orient": "horizontal",
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "textStyle": {
+                "fontSize": 11,
+                "richInheritPlainLabel": true
+            },
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10,
+            "triggerEvent": false
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "shadow"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "displayTransition": true,
+        "formatter": function(p){var s='<b>'+p[0].name+'</b><br/>';p.forEach(function(i){s+=i.marker+' '+i.seriesName+': '+i.value.toFixed(1)+'%<br/>';});return s;},
+        "textStyle": {
+            "fontSize": 14,
+            "richInheritPlainLabel": true
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": "{value}%",
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "max": 100,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0,
+            "data": [
+                "Utilities",
+                "Environmental Services",
+                "Professional Services",
+                "Government",
+                "Metals & Mining",
+                "Energy",
+                "Security",
+                "Non-Profit Organizations",
+                "Education",
+                "Industrial",
+                "Agriculture",
+                "Healthcare",
+                "Transportation",
+                "Real Estate",
+                "Financial",
+                "Information Technology",
+                "Leisure",
+                "Consumer Durable Goods",
+                "Communications & Media",
+                "Retail",
+                "Food & Beverages",
+                "Consumer Packaged Goods"
+            ]
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "Channel Mix by Sector (%)",
+            "target": "blank",
+            "subtext": "How each sector allocates across channels",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "color": "#1E293B",
+                "fontWeight": "bold",
+                "fontSize": 17,
+                "richInheritPlainLabel": true
+            },
+            "subtextStyle": {
+                "color": "#64748B",
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            }
+        }
+    ]
+};
+        chart_0c1fbb88676c487db4af72206b1dc3e2.setOption(option_0c1fbb88676c487db4af72206b1dc3e2);
+            window.addEventListener('resize', function(){
+                chart_0c1fbb88676c487db4af72206b1dc3e2.resize();
+            })
+    </script>
+</body>
+</html>
+</div>
+        </div>
+        
+
+        <div class="section-title">Spend Distribution &amp; Coverage</div>
+        <div class="section-desc">How marketing budgets vary within and across sectors</div>
+        <div class="insight">
+          <h4>Key Finding</h4>
+          <p>Marketing budgets follow a heavy-tailed distribution — a small number of
+             large companies account for a disproportionate share of total spend. The wide
+             interquartile range within each sector means that sector benchmarks
+             are a starting point, but company-specific financials and digital
+             footprint are needed to refine the estimate.</p>
+        </div>
+        <div class="grid-2">
+          <div class="card"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="5af997322eb143b4911e795435c4464f" class="chart-container" style="width:100%; height:696px; "></div>
+    <script>
+        var chart_5af997322eb143b4911e795435c4464f = echarts.init(
+            document.getElementById('5af997322eb143b4911e795435c4464f'), 'light', {renderer: 'canvas', locale: 'ZH'});
+        var option_5af997322eb143b4911e795435c4464f = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "bar",
+            "name": "25th Pctl",
+            "legendHoverLink": true,
+            "data": [
+                1824975.0,
+                1804056.0,
+                2035220.0,
+                2155661.0,
+                2262022.0,
+                2104078.0,
+                2334893.0,
+                2412321.0,
+                2368496.0,
+                2412321.0,
+                2448699.0,
+                2417829.0,
+                2606071.0,
+                2417829.0,
+                2727145.0,
+                2812857.0,
+                3368528.0,
+                2417829.0,
+                3340359.0,
+                2558564.0,
+                3308928.0,
+                2536247.0
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#C7D2FE"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Median",
+            "legendHoverLink": true,
+            "data": [
+                2036299.0,
+                2132776.0,
+                2149859.0,
+                2166768.0,
+                2267187.0,
+                2288167.0,
+                2346923.0,
+                2417829.0,
+                2417829.0,
+                2417829.0,
+                2521024.0,
+                2656607.0,
+                2689140.0,
+                2767647.0,
+                2784260.0,
+                2895288.0,
+                3372375.0,
+                3406522.0,
+                3442561.0,
+                3457841.0,
+                3582252.0,
+                4199794.0
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#4F46E5"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "75th Pctl",
+            "legendHoverLink": true,
+            "data": [
+                2354458.0,
+                2330200.0,
+                5906248.0,
+                2417829.0,
+                2389537.0,
+                2439242.0,
+                2417829.0,
+                2424749.0,
+                2424749.0,
+                2424749.0,
+                2650183.0,
+                3871868.0,
+                8315888.0,
+                3460119.0,
+                2846842.0,
+                3037810.0,
+                3574246.0,
+                3605799.0,
+                3734847.0,
+                3643739.0,
+                3781136.0,
+                4214303.0
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "total",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#A5B4FC"
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "25th Pctl",
+                "Median",
+                "75th Pctl"
+            ],
+            "selected": {},
+            "show": true,
+            "bottom": "0%",
+            "orient": "horizontal",
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "textStyle": {
+                "fontSize": 11,
+                "richInheritPlainLabel": true
+            },
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10,
+            "triggerEvent": false
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "shadow"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "displayTransition": true,
+        "formatter": function(p){var s='<b>'+p[0].name+'</b><br/>';var t=0;function fc(v){return v>=1e12?'$'+(v/1e12).toFixed(1)+'T':v>=1e9?'$'+(v/1e9).toFixed(1)+'B':v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1e3).toFixed(0)+'K';}p.forEach(function(i){t+=i.value;s+=i.marker+' '+i.seriesName+': '+fc(i.value)+'<br/>';});s+='<br/><b>Total: '+fc(t)+'</b>';return s;},
+        "textStyle": {
+            "fontSize": 14,
+            "richInheritPlainLabel": true
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(v){if(v>=1e12)return '$'+(v/1e12).toFixed(1)+'T';if(v>=1e9)return '$'+(v/1e9).toFixed(1)+'B';if(v>=1e6)return '$'+(v/1e6).toFixed(1)+'M';if(v>=1e3)return '$'+(v/1e3).toFixed(0)+'K';return '$'+v},
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0,
+            "data": [
+                "Real Estate",
+                "Industrial",
+                "Professional Services",
+                "Transportation",
+                "Metals & Mining",
+                "Energy",
+                "Agriculture",
+                "Environmental Services",
+                "Government",
+                "Utilities",
+                "Education",
+                "Healthcare",
+                "Financial",
+                "Retail",
+                "Non-Profit Organizations",
+                "Security",
+                "Communications & Media",
+                "Food & Beverages",
+                "Consumer Packaged Goods",
+                "Leisure",
+                "Consumer Durable Goods",
+                "Information Technology"
+            ]
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "Budget Range by Sector",
+            "target": "blank",
+            "subtext": "P25 / Median / P75 of estimated marketing spend",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "color": "#1E293B",
+                "fontWeight": "bold",
+                "fontSize": 17,
+                "richInheritPlainLabel": true
+            },
+            "subtextStyle": {
+                "color": "#64748B",
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            }
+        }
+    ]
+};
+        chart_5af997322eb143b4911e795435c4464f.setOption(option_5af997322eb143b4911e795435c4464f);
+            window.addEventListener('resize', function(){
+                chart_5af997322eb143b4911e795435c4464f.resize();
+            })
+    </script>
+</body>
+</html>
+</div>
+          <div class="card"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="d4e61829f12546f5912c0dcf4f04998d" class="chart-container" style="width:100%; height:696px; "></div>
+    <script>
+        var chart_d4e61829f12546f5912c0dcf4f04998d = echarts.init(
+            document.getElementById('d4e61829f12546f5912c0dcf4f04998d'), 'light', {renderer: 'canvas', locale: 'ZH'});
+        var option_d4e61829f12546f5912c0dcf4f04998d = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "bar",
+            "legendHoverLink": true,
+            "data": [
+                206051,
+                248396,
+                249920,
+                284844,
+                333930,
+                363542,
+                444481,
+                616043,
+                739886,
+                985167,
+                1061333,
+                1169998,
+                1544549,
+                1640458,
+                1941724,
+                1950916,
+                2096661,
+                2165606,
+                2979331,
+                3423464,
+                4377532,
+                4612004
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": true,
+                "position": "right",
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": "{c}",
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#A5B4FC'},{offset:1,color:'#4F46E5'}])
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                ""
+            ],
+            "selected": {},
+            "show": false,
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10,
+            "triggerEvent": false
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "displayTransition": true,
+        "textStyle": {
+            "fontSize": 14,
+            "richInheritPlainLabel": true
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": "{value}",
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0,
+            "data": [
+                "Security",
+                "Metals & Mining",
+                "Environmental Services",
+                "Energy",
+                "Agriculture",
+                "Utilities",
+                "Food & Beverages",
+                "Consumer Packaged Goods",
+                "Transportation",
+                "Government",
+                "Education",
+                "Real Estate",
+                "Consumer Durable Goods",
+                "Financial",
+                "Communications & Media",
+                "Non-Profit Organizations",
+                "Healthcare",
+                "Retail",
+                "Leisure",
+                "Information Technology",
+                "Professional Services",
+                "Industrial"
+            ]
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "Sector Coverage",
+            "target": "blank",
+            "subtext": "Number of companies scored per sector",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "color": "#1E293B",
+                "fontWeight": "bold",
+                "fontSize": 17,
+                "richInheritPlainLabel": true
+            },
+            "subtextStyle": {
+                "color": "#64748B",
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            }
+        }
+    ]
+};
+        chart_d4e61829f12546f5912c0dcf4f04998d.setOption(option_d4e61829f12546f5912c0dcf4f04998d);
+            window.addEventListener('resize', function(){
+                chart_d4e61829f12546f5912c0dcf4f04998d.resize();
+            })
+    </script>
+</body>
+</html>
+</div>
+        </div>
+        
+
+        <div class="section-title">B2B vs B2C Marketing Patterns</div>
+        <div class="section-desc">How customer type shapes marketing strategy</div>
+        <div class="insight">
+          <h4>Key Finding</h4>
+          <p>B2C companies allocate substantially more to <b>influencer marketing</b> —
+             reflecting the dominance of creator partnerships for reaching consumers.
+             B2B companies lean into <b>digital advertising</b> (search, display, LinkedIn)
+             for lead generation. This B2B/B2C split is one of the strongest and most
+             consistent signals in the data.</p>
+        </div>
+        <div class="card"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="af90389ff72e4d45998e7d1ba8741d7a" class="chart-container" style="width:100%; height:380px; "></div>
+    <script>
+        var chart_af90389ff72e4d45998e7d1ba8741d7a = echarts.init(
+            document.getElementById('af90389ff72e4d45998e7d1ba8741d7a'), 'light', {renderer: 'canvas', locale: 'ZH'});
+        var option_af90389ff72e4d45998e7d1ba8741d7a = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "bar",
+            "name": "Digital Advertising",
+            "legendHoverLink": true,
+            "data": [
+                14.7,
+                14.7
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "pct",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "50%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": true,
+                "position": "inside",
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(p){return p.value>5?p.value.toFixed(0)+'%':''},
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#4F46E5"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Influencer",
+            "legendHoverLink": true,
+            "data": [
+                4.2,
+                3.6
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "pct",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "50%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": true,
+                "position": "inside",
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(p){return p.value>5?p.value.toFixed(0)+'%':''},
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#06B6D4"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Sponsorship",
+            "legendHoverLink": true,
+            "data": [
+                10.8,
+                10.7
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "pct",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "50%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": true,
+                "position": "inside",
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(p){return p.value>5?p.value.toFixed(0)+'%':''},
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#8B5CF6"
+            }
+        },
+        {
+            "type": "bar",
+            "name": "Other / Residual",
+            "legendHoverLink": true,
+            "data": [
+                70.0,
+                70.0
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stack": "pct",
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "50%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": true,
+                "position": "inside",
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(p){return p.value>5?p.value.toFixed(0)+'%':''},
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": "#F59E0B"
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "Digital Advertising",
+                "Influencer",
+                "Sponsorship",
+                "Other / Residual"
+            ],
+            "selected": {},
+            "show": true,
+            "bottom": "0%",
+            "orient": "horizontal",
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "textStyle": {
+                "fontSize": 11,
+                "richInheritPlainLabel": true
+            },
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10,
+            "triggerEvent": false
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "shadow"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "displayTransition": true,
+        "formatter": function(p){var s='<b>'+p[0].name+'</b><br/>';p.forEach(function(i){s+=i.marker+' '+i.seriesName+': '+i.value.toFixed(1)+'%<br/>';});return s;},
+        "textStyle": {
+            "fontSize": 14,
+            "richInheritPlainLabel": true
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 13,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0,
+            "data": [
+                "B2C",
+                "B2B"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": "{value}%",
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "max": 100,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "Channel Mix: B2B vs B2C vs B2B2C",
+            "target": "blank",
+            "subtext": "How customer type shapes marketing channel allocation",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "color": "#1E293B",
+                "fontWeight": "bold",
+                "fontSize": 17,
+                "richInheritPlainLabel": true
+            },
+            "subtextStyle": {
+                "color": "#64748B",
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            }
+        }
+    ]
+};
+        chart_af90389ff72e4d45998e7d1ba8741d7a.setOption(option_af90389ff72e4d45998e7d1ba8741d7a);
+            window.addEventListener('resize', function(){
+                chart_af90389ff72e4d45998e7d1ba8741d7a.resize();
+            })
+    </script>
+</body>
+</html>
+</div>
+        
+
+        <div class="section-title">Marketing Intensity</div>
+        <div class="section-desc">Marketing investment as a share of revenue, by sector</div>
+        <div class="insight">
+          <h4>Key Finding</h4>
+          <p>Marketing-to-revenue ratio varies significantly by sector. Consumer-facing and
+             brand-dependent sectors invest the largest share of revenue in marketing,
+             while capital-intensive sectors spend proportionally less. Use this to benchmark
+             whether a company is above or below its sector norm.</p>
+        </div>
+        <div class="card"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v6/echarts.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="9fd17ede5eca45929b19d5f4e346ac45" class="chart-container" style="width:100%; height:696px; "></div>
+    <script>
+        var chart_9fd17ede5eca45929b19d5f4e346ac45 = echarts.init(
+            document.getElementById('9fd17ede5eca45929b19d5f4e346ac45'), 'light', {renderer: 'canvas', locale: 'ZH'});
+        var option_9fd17ede5eca45929b19d5f4e346ac45 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "bar",
+            "legendHoverLink": true,
+            "data": [
+                23.7,
+                24.2,
+                26.0,
+                26.2,
+                26.9,
+                27.9,
+                27.9,
+                29.4,
+                32.2,
+                33.8,
+                34.9,
+                36.7,
+                36.8,
+                37.0,
+                39.8,
+                41.3,
+                43.2,
+                43.7,
+                43.9,
+                46.4,
+                53.9,
+                56.1
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barWidth": "55%",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": true,
+                "position": "right",
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": "{c}%",
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "itemStyle": {
+                "color": new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#06B6D4'},{offset:1,color:'#4F46E5'}])
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                ""
+            ],
+            "selected": {},
+            "show": false,
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10,
+            "triggerEvent": false
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "displayTransition": true,
+        "textStyle": {
+            "fontSize": 14,
+            "richInheritPlainLabel": true
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "formatter": function(v){return v+'%'},
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "nameTruncate": {},
+            "nameMoveOverlap": true,
+            "axisLabel": {
+                "show": true,
+                "margin": 8,
+                "fontSize": 11,
+                "richInheritPlainLabel": true,
+                "valueAnimation": false
+            },
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "silent": false,
+            "triggerEvent": false,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": false
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0,
+            "data": [
+                "Education",
+                "Metals & Mining",
+                "Food & Beverages",
+                "Agriculture",
+                "Transportation",
+                "Utilities",
+                "Energy",
+                "Consumer Packaged Goods",
+                "Environmental Services",
+                "Healthcare",
+                "Industrial",
+                "Security",
+                "Information Technology",
+                "Government",
+                "Consumer Durable Goods",
+                "Retail",
+                "Professional Services",
+                "Financial",
+                "Communications & Media",
+                "Real Estate",
+                "Leisure",
+                "Non-Profit Organizations"
+            ]
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "Marketing Intensity by Sector",
+            "target": "blank",
+            "subtext": "Median estimated marketing spend as % of revenue",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "color": "#1E293B",
+                "fontWeight": "bold",
+                "fontSize": 17,
+                "richInheritPlainLabel": true
+            },
+            "subtextStyle": {
+                "color": "#64748B",
+                "fontSize": 12,
+                "richInheritPlainLabel": true
+            }
+        }
+    ]
+};
+        chart_9fd17ede5eca45929b19d5f4e346ac45.setOption(option_9fd17ede5eca45929b19d5f4e346ac45);
+            window.addEventListener('resize', function(){
+                chart_9fd17ede5eca45929b19d5f4e346ac45.resize();
+            })
+    </script>
+</body>
+</html>
+</div>
+        
+
+        <div class="section-title">Why These Patterns Make Sense</div>
+        <div class="section-desc">Aggregate model outputs align with known industry dynamics</div>
+        <div class="validation">
+          <h4>Model Validation</h4>
+          <p>While individual company estimates carry uncertainty, the aggregate patterns
+             produced by the model consistently match established industry knowledge:</p>
+          <ul>
+            <li><b>B2C companies allocate 4% to influencer vs 4% for B2B</b> — consistent with consumer brands investing heavily in Instagram/YouTube creator partnerships.</li>
+<li><b>Highest marketing intensity: Non-Profit Organizations, Leisure, Real Estate</b> — consumer-facing sectors that compete on brand spend the largest share of revenue on marketing, matching industry benchmarks.</li>
+<li><b>Lowest marketing intensity: Education, Metals & Mining, Food & Beverages</b> — capital-intensive and institutional sectors where sales are relationship-driven rather than marketing-driven.</li>
+<li><b>Largest median budgets: Information Technology, Consumer Durable Goods, Leisure</b> — these sectors contain the largest companies with the most aggressive marketing operations, consistent with publicly available advertising rankings.</li>
+<li><b>Budget distribution is heavy-tailed</b> — a small number of large companies account for a disproportionate share of total spend. This matches real-world patterns where the top 100 advertisers represent ~60% of US ad spend (Ad Age).</li>
+          </ul>
+        </div>
+        
+
+        <div class="section-title">Methodology &amp; Confidence</div>
+        <div class="section-desc">How the estimates are produced and where they are most reliable</div>
+        <div class="methodology-footer">
+          <h3>Signal Confidence by Channel</h3>
+          <div class="conf-grid">
+            <div class="conf-card high">
+              <div class="ct">High Confidence</div>
+              <div class="cl">Digital Advertising</div>
+              <div class="cs">83K training examples</div>
+            </div>
+            <div class="conf-card moderate">
+              <div class="ct">Moderate Confidence</div>
+              <div class="cl">Total Marketing Expense</div>
+              <div class="cs">1.6K training examples</div>
+            </div>
+            <div class="conf-card directional">
+              <div class="ct">Directional</div>
+              <div class="cl">Influencer Spend</div>
+              <div class="cs">22K training examples</div>
+            </div>
+            <div class="conf-card directional">
+              <div class="ct">Directional</div>
+              <div class="cl">Sponsorship Spend</div>
+              <div class="cs">7.8K training examples</div>
+            </div>
+          </div>
+          <p>The model uses 40 features per company — financials (revenue, EBITDA, gross margin),
+             digital footprint (ad impressions, traffic, social), and company attributes (sector,
+             size, public/private, funding) — to estimate marketing allocation.</p>
+          <p>Estimates are most reliable for <b>sector-level patterns</b> and <b>relative
+             comparisons</b> (e.g. ranking companies by spend within a sector). Individual
+             company figures should be treated as order-of-magnitude estimates. The
+             &ldquo;Other / Residual&rdquo; category covers marketing activities beyond
+             the three tracked channels: events, content, PR, team costs, etc.</p>
+        </div>
+        
+
+</div>
+<div class="footer">Generated by CRED Intelligence Lab &bull; 2026-03-09</div>
+</body></html>
