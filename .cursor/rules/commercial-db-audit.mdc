@@ -1,0 +1,59 @@
+---
+description: Playbook for auditing a commercial BigQuery database. Use when asked to run a commercial DB audit, analyze a customer's BQ instance, or replicate the cred-commercial analysis.
+alwaysApply: false
+---
+
+# Commercial DB Audit Playbook
+
+## Quick start
+
+```bash
+python scripts/commercial_db_audit.py --project <BQ_PROJECT_ID>
+```
+
+This runs all 11 analysis sections and generates an HTML report to `analysis_notebooks/reports/output/`.
+
+## Options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--project` | (required) | BigQuery project to audit |
+| `--billing-project` | `cred-1556636033881` | Project that runs queries / has `cred_seed` |
+| `--schemas` | `commercial_model_prod commercial_credentity cred_enrichment` | Key schemas to analyse |
+| `--output` | Auto-generated | Custom output path for the HTML report |
+
+## Authentication
+
+Requires Google Cloud + Drive scopes. If the user hits `Forbidden: Permission denied while getting Drive credentials`:
+```bash
+gcloud auth application-default login \
+  --scopes='https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/drive.readonly'
+```
+
+## What it does (11 sections)
+
+1. Schema inventory (INFORMATION_SCHEMA.SCHEMATA + COLUMNS)
+2. Table volumes (TABLE_STORAGE — row counts, storage)
+3. CRM plan gap analysis (DataDescriptionMetadata — tier table with expansion candidates)
+4. Core CRM tables (Account, Contact, Activity — counts + null rates)
+5. User events & collections
+6. Unipile/LinkedIn status
+7. Person enrichment coverage (field-level %)
+8. Company enrichment coverage (field-level %)
+9. Data sources (cred_seed.DataSources)
+10. Unique data points vs standard CRMs
+11. HTML report generation with Chart.js charts
+
+## Answers these questions
+
+- **Q1**: What are all the integrated data sources? → Sections 1, 7-8, 9
+- **Q2**: What data points can we expose per CRM tier? → Section 3 (full tier table)
+- **Q3**: Are there unique data points? → Section 10
+
+## Error handling
+
+The script uses `safe_query()` — if a section fails (missing table, permission error), it logs a warning and continues. The report will show available data and skip failed sections.
+
+## For deeper exploration
+
+The template notebook is at `analysis_notebooks/CommercialDBAnalysis/commercial_db_audit_template.ipynb` for interactive investigation after the script runs.
